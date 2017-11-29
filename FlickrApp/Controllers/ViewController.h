@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FlickrAPI.h"
 
-@interface ViewController : UIViewController
+
+@interface ViewController : UIViewController <FlickrAPITopTagsDelegate>
 
 
 @end

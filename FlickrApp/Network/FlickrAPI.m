@@ -43,7 +43,7 @@ static NSString *flickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
 
 
 - (void)getTopTags:(id <FlickrAPITopTagsDelegate>)delegate {
-
+    NSArray * __block topTags;
     NSDictionary *additionalParameters = @{@"period" : @"week",
                                            @"count" : @"20"
                                            };
@@ -57,10 +57,9 @@ static NSString *flickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
                                                          NSData * jsonResults = [NSData dataWithContentsOfURL:url];
                                                          NSDictionary * results = [NSJSONSerialization JSONObjectWithData:jsonResults
                                                                         options:0 error:NULL];
-                                                         NSArray * topTags = [[results objectForKey:@"hottags"] objectForKey:@"tag"];
+                                                         topTags = [[results objectForKey:@"hottags"] objectForKey:@"tag"];
                                                          dispatch_async(dispatch_get_main_queue(), ^{
-//                                                             NSLog(@"%@", topTags);
-                                                             [delegate printTopTags:topTags];
+                                                             [delegate setTopTags:topTags];
                                                          });
                                                      } else {
                                                          NSLog(@"%@", error);

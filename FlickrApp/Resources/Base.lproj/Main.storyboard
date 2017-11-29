@@ -19,7 +19,8 @@
         <!--View controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" userLabel="View controller" customClass="ViewController" sceneMemberID="viewController">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <viewController id="BYZ-38-t0r" userLabel="View controller" customClass="TopTagsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -29,7 +30,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="tag" rowHeight="109" id="Nkn-9h-8O0">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="tag" rowHeight="109" id="Nkn-9h-8O0" customClass="TagTableViewCell">
                                         <rect key="frame" x="0.0" y="28" width="375" height="109"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Nkn-9h-8O0" id="vAr-pw-xbu">
@@ -55,8 +56,16 @@
                                                 <constraint firstAttribute="bottom" secondItem="Zax-Vn-rOE" secondAttribute="bottom" id="twE-No-0Dy"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="tagImage" destination="Zax-Vn-rOE" id="7xx-4N-nGr"/>
+                                            <outlet property="tagTitle" destination="nvA-3O-Gk0" id="KBG-TG-MjL"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="4DN-Jg-D2C"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="NOw-Gd-MnI"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -71,10 +80,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="tagsTable" destination="aKJ-EC-mKH" id="joh-GR-PX6"/>
                         <segue destination="rHQ-C0-Pov" kind="show" identifier="TagSegue" id="Rpy-oj-yGh"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="191.25" y="-233.45070422535213"/>
         </scene>
@@ -229,6 +238,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="wNh-E3-Vgy"/>
+        <segue reference="DZ4-Mo-e4v"/>
     </inferredMetricsTieBreakers>
 </document>

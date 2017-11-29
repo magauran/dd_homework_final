@@ -11,12 +11,13 @@
 
 @protocol FlickrAPITopTagsDelegate <NSObject>
 
-- (void)printTopTags:(NSArray *)tags;
+- (void)setTopTags:(NSArray *)tags;
 
 @end
 
 @interface FlickrAPI: NSObject
 
 - (void)getTopTags:(id<FlickrAPITopTagsDelegate>) delegate;
+@property(strong,nonatomic) NSArray * tags;
 
 @end

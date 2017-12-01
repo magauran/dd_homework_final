@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "Tag.h"
+#import "Photo.h"
 
 @protocol FlickrAPITopTagsDelegate <NSObject>
 
@@ -18,6 +19,7 @@
 @interface FlickrAPI: NSObject
 
 - (void)getTopTags:(id<FlickrAPITopTagsDelegate>) delegate;
+- (void)getPhotoByTag:(NSString *)tag completion:(void (^)(Photo *))completion;
 @property(strong,nonatomic) NSArray * tags;
 
 @end

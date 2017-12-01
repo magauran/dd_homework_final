@@ -43,9 +43,9 @@ static NSString *flickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
 
 
 - (void)getTopTags:(id <FlickrAPITopTagsDelegate>)delegate {
-    NSArray * __block topTags;
+    NSMutableArray * __block outTags;
     NSDictionary *additionalParameters = @{@"period" : @"week",
-                                           @"count" : @"20"
+                                           @"count" : @"5"
                                            };
     NSURL * url = [self flickrURLForMethod:@"flickr.tags.getHotList"
                             withParameters:additionalParameters];
@@ -56,11 +56,64 @@ static NSString *flickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
                                                      if (!error) {
                                                          NSData * jsonResults = [NSData dataWithContentsOfURL:url];
                                                          NSDictionary * results = [NSJSONSerialization JSONObjectWithData:jsonResults
-                                                                        options:0 error:NULL];
-                                                         topTags = [[results objectForKey:@"hottags"] objectForKey:@"tag"];
-                                                         dispatch_async(dispatch_get_main_queue(), ^{
-                                                             [delegate setTopTags:topTags];
+                                                                                                                  options:0 error:NULL];
+                                                         NSArray *topTags = [[results objectForKey:@"hottags"] objectForKey:@"tag"];
+                                                         outTags = [[NSMutableArray alloc] init];
+                                                         
+                                                         dispatch_queue_t queue = dispatch_queue_create("photos", 0);
+                                                         
+                                                         for (id tag in topTags) {
+                                                             
+                                                             dispatch_async(queue, ^{
+                                                                 dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+                                                                 
+                                                                 NSString *title = [tag valueForKeyPath:@"_content"];
+                                                                 
+                                                                 [self getPhotoByTag:title completion:^(Photo *image) {
+                                                                     Tag *tag = [[Tag alloc] initWithTitle:title andPhoto:image.source];
+                                                                     [outTags addObject:tag];
+                                                                     dispatch_semaphore_signal(sema);
+                                                                     
+                                                                 }];
+                                                                 dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+                                                                 NSLog(@"Got one photo.");
+                                                             });
+                                                             
+                                                         }
+                                                         
+                                                         dispatch_async(queue, ^{
+                                                             dispatch_async(dispatch_get_main_queue(), ^{
+                                                                 [delegate setTopTags:outTags];
+                                                             });
                                                          });
+                                                     } else {
+                                                         NSLog(@"%@", error);
+                                                     }
+                                                 }];
+    [task resume];
+}
+
+
+- (void)getPhotoByTag:(NSString *)tag completion:(void (^)(Photo *))completion {
+    NSDictionary *additionalParameters = @{@"tags" : tag
+                                           };
+    NSURL * url = [self flickrURLForMethod:@"flickr.photos.search"
+                            withParameters:additionalParameters];
+    
+    NSURLSession * session = [NSURLSession sharedSession];
+    NSURLSessionDownloadTask * task = [session downloadTaskWithURL:url
+                                                 completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                                                     if (!error) {
+                                                         NSData * jsonResults = [NSData dataWithContentsOfURL:url];
+                                                         NSDictionary * results = [NSJSONSerialization JSONObjectWithData:jsonResults
+                                                                                                                  options:0 error:NULL];
+                                                         NSArray *photos = [[results objectForKey:@"photos"] objectForKey:@"photo"];
+                                                         
+                                                         Photo *photo = [[Photo alloc] initWithPhotoDictionary:photos[0]];
+                                                         
+                                                         
+                                                         completion(photo);
+                                                         
                                                      } else {
                                                          NSLog(@"%@", error);
                                                      }

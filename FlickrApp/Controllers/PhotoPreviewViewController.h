@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PhotoCollectionViewCell.h"
+#import "PhotoViewController.h"
 #import "FlickrAPI.h"
 
 @interface PhotoPreviewViewController : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource>

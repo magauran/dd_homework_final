@@ -29,7 +29,7 @@
             dispatch_semaphore_t sema = dispatch_semaphore_create(0);
             
             [flickr getPhotoByTag:self.selectedTag indexNumber:i completion:^(Photo *image) {
-                [photo addObject:image.source];
+                [photo addObject:image];
                 dispatch_semaphore_signal(sema);
                 _photos = photo;
             }];
@@ -52,7 +52,8 @@
     
     NSInteger index = indexPath.row;
     if (_photos.count > index) {
-        cell.image.image = [_photos objectAtIndex:index];
+        Photo *previewPhoto = [_photos objectAtIndex:index];
+        cell.image.image = previewPhoto.source;
     }
     return cell;
 }
@@ -66,6 +67,26 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat cellSide = (collectionView.frame.size.width - 20) / 3;
     return CGSizeMake(cellSide, cellSide);
+}
+
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger index = indexPath.row;
+    Photo *photo = [_photos objectAtIndex:index];
+    if (photo) {
+        [self performSegueWithIdentifier:@"ShowPhotoSegue" sender:photo];
+    }
+}
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqual:@"ShowPhotoSegue"]) {
+        PhotoViewController *controller = (PhotoViewController *)segue.destinationViewController;
+        NSURL *url = [(Photo*)sender mediumSizePhotoUrl];
+        UIImage *image = [(Photo *)sender source];
+        controller.photoUrl = url;
+        controller.lowQualityImage = image;
+    }
 }
 
 

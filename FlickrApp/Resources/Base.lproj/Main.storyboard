@@ -161,7 +161,7 @@
         <!--Photo-->
         <scene sceneID="Rrs-XE-ctM">
             <objects>
-                <viewController id="Ntm-rA-aRM" sceneMemberID="viewController">
+                <viewController id="Ntm-rA-aRM" customClass="PhotoViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="z8F-BF-1Fs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -180,6 +180,9 @@
                         <viewLayoutGuide key="safeArea" id="VPH-HW-0mB"/>
                     </view>
                     <navigationItem key="navigationItem" title="Photo" id="cIP-Kz-46i"/>
+                    <connections>
+                        <outlet property="photo" destination="5a5-MK-XlC" id="y3M-Rs-RGt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BDx-oF-4d0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

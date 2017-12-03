@@ -25,6 +25,7 @@
     self.title = dictionary[@"title"];
     
     NSURL *searchURL = [self flickrPhotoURLForFlickrPhoto:self size:@"m"];
+    self.mediumSizePhotoUrl = [self flickrPhotoURLForFlickrPhoto:self size:@""];
     NSData *imageData = [NSData dataWithContentsOfURL:searchURL];
     UIImage *image = [UIImage imageWithData:imageData];
     self.source = image;

@@ -39,7 +39,7 @@
     cell.tagTitle.text = tag.title;
     CGFloat width = tag.photo.size.width;
     CGFloat height = width * 150 / self.view.bounds.size.width;
-    cell.tagImage.image = [self imageByCroppingImage:tag.photo toSize:CGSizeMake(width, height)] ;
+    cell.tagImage.image = [tag.photo cropImageToSize:CGSizeMake(width, height)] ;
     return cell;
 }
 
@@ -66,26 +66,6 @@
         PhotoPreviewViewController *controller = (PhotoPreviewViewController *)segue.destinationViewController;
         controller.selectedTag = sender;
     }
-}
-
-
-- (UIImage *)imageByCroppingImage:(UIImage *)image toSize:(CGSize)size {
-    
-    
-    
-    double refWidth = CGImageGetWidth(image.CGImage);
-    double refHeight = CGImageGetHeight(image.CGImage);
-    
-    double x = (refWidth - size.width) / 2.0;
-    double y = (refHeight - size.height) / 2.0;
-    
-    CGRect cropRect = CGRectMake(x, y, size.width, size.height);
-    CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], cropRect);
-    
-    UIImage *cropped = [UIImage imageWithCGImage:imageRef scale:0.0 orientation:UIImageOrientationUp];
-    CGImageRelease(imageRef);
-    
-    return cropped;
 }
 
 

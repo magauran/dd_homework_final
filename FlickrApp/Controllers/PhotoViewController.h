@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIImage+Cropping.h"
 
 @interface PhotoViewController : UIViewController
 

@@ -44,7 +44,7 @@ static NSString *flickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
 
 - (void)getTopTags:(id <FlickrAPITopTagsDelegate>)delegate {
     NSMutableArray * __block outTags;
-    NSDictionary *additionalParameters = @{@"period" : @"week",
+    NSDictionary *additionalParameters = @{@"period" : @"day",
                                            @"count" : @"5"
                                            };
     NSURL * url = [self flickrURLForMethod:@"flickr.tags.getHotList"
@@ -69,7 +69,7 @@ static NSString *flickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
                                                                  
                                                                  NSString *title = [tag valueForKeyPath:@"_content"];
                                                                  
-                                                                 [self getPhotoByTag:title completion:^(Photo *image) {
+                                                                 [self getPhotoByTag:title indexNumber:0 completion:^(Photo *image) {
                                                                      Tag *tag = [[Tag alloc] initWithTitle:title andPhoto:image.source];
                                                                      [outTags addObject:tag];
                                                                      dispatch_semaphore_signal(sema);
@@ -94,12 +94,12 @@ static NSString *flickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
 }
 
 
-- (void)getPhotoByTag:(NSString *)tag completion:(void (^)(Photo *))completion {
+- (void)getPhotoByTag:(NSString *)tag indexNumber:(NSInteger)index completion:(void (^)(Photo *))completion {
     NSDictionary *additionalParameters = @{@"tags" : tag
                                            };
     NSURL * url = [self flickrURLForMethod:@"flickr.photos.search"
                             withParameters:additionalParameters];
-    
+
     NSURLSession * session = [NSURLSession sharedSession];
     NSURLSessionDownloadTask * task = [session downloadTaskWithURL:url
                                                  completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -109,7 +109,7 @@ static NSString *flickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
                                                                                                                   options:0 error:NULL];
                                                          NSArray *photos = [[results objectForKey:@"photos"] objectForKey:@"photo"];
                                                          
-                                                         Photo *photo = [[Photo alloc] initWithPhotoDictionary:photos[0]];
+                                                         Photo *photo = [[Photo alloc] initWithPhotoDictionary:photos[index]];
                                                          
                                                          
                                                          completion(photo);

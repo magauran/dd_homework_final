@@ -11,7 +11,7 @@
 
 @interface TopTagsViewController()
 
-@property (nonatomic, strong) NSArray *topTags;
+@property (strong, nonatomic) NSArray *topTags;
 @property (weak, nonatomic) IBOutlet UITableView *tagsTable;
 
 @end
@@ -51,9 +51,24 @@
     return 150;
 }
 
-- (UIImage *)imageByCroppingImage:(UIImage *)image toSize:(CGSize)size
-{
-    // not equivalent to image.size (which depends on the imageOrientation)!
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    Tag *selectedTag = [_topTags objectAtIndex:indexPath.row];
+    [self performSegueWithIdentifier:@"TagSegue" sender:selectedTag.title];
+}
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqual:@"TagSegue"]) {
+        PhotoPreviewViewController *controller = (PhotoPreviewViewController *)segue.destinationViewController;
+        controller.selectedTag = sender;
+    }
+}
+
+
+- (UIImage *)imageByCroppingImage:(UIImage *)image toSize:(CGSize)size {
+    
     double refWidth = CGImageGetWidth(image.CGImage);
     double refHeight = CGImageGetHeight(image.CGImage);
     

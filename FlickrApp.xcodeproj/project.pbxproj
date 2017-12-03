@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8A0552281FD1269E00621975 /* PhotoPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A0552271FD1269E00621975 /* PhotoPreviewViewController.m */; };
+		8A05522B1FD12DC000621975 /* PhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A05522A1FD12DC000621975 /* PhotoCollectionViewCell.m */; };
 		8A4CBD101FCE406600625050 /* FlickrAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A4CBD0F1FCE406600625050 /* FlickrAPI.m */; };
 		8A4CBD181FCE6B2B00625050 /* TagTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A4CBD161FCE6B2B00625050 /* TagTableViewCell.m */; };
 		8A4CBD261FD0AA9A00625050 /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A4CBD251FD0AA9A00625050 /* Tag.m */; };
@@ -20,10 +22,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8A0552261FD1269E00621975 /* PhotoPreviewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoPreviewViewController.h; sourceTree = "<group>"; };
+		8A0552271FD1269E00621975 /* PhotoPreviewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoPreviewViewController.m; sourceTree = "<group>"; };
+		8A0552291FD12DC000621975 /* PhotoCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoCollectionViewCell.h; sourceTree = "<group>"; };
+		8A05522A1FD12DC000621975 /* PhotoCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoCollectionViewCell.m; sourceTree = "<group>"; };
 		8A4CBD0F1FCE406600625050 /* FlickrAPI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlickrAPI.m; sourceTree = "<group>"; };
 		8A4CBD111FCE407700625050 /* FlickrAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlickrAPI.h; sourceTree = "<group>"; };
-		8A4CBD151FCE6B2B00625050 /* TagTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TagTableViewCell.h; path = FlickrApp/TagTableViewCell.h; sourceTree = SOURCE_ROOT; };
-		8A4CBD161FCE6B2B00625050 /* TagTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TagTableViewCell.m; path = FlickrApp/TagTableViewCell.m; sourceTree = SOURCE_ROOT; };
+		8A4CBD151FCE6B2B00625050 /* TagTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TagTableViewCell.h; path = FlickrApp/Views/TagTableViewCell.h; sourceTree = SOURCE_ROOT; };
+		8A4CBD161FCE6B2B00625050 /* TagTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TagTableViewCell.m; path = FlickrApp/Views/TagTableViewCell.m; sourceTree = SOURCE_ROOT; };
 		8A4CBD241FD0AA9A00625050 /* Tag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tag.h; sourceTree = "<group>"; };
 		8A4CBD251FD0AA9A00625050 /* Tag.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tag.m; sourceTree = "<group>"; };
 		8A4CBD271FD0D06800625050 /* Photo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
@@ -51,11 +57,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8A0552251FD11DC200621975 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8A4CBD151FCE6B2B00625050 /* TagTableViewCell.h */,
+				8A4CBD161FCE6B2B00625050 /* TagTableViewCell.m */,
+				8A0552291FD12DC000621975 /* PhotoCollectionViewCell.h */,
+				8A05522A1FD12DC000621975 /* PhotoCollectionViewCell.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		8A4CBD121FCE409C00625050 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				8A60A0DB1FCE2DED0043219D /* TopTagsViewController.h */,
 				8A60A0DC1FCE2DED0043219D /* TopTagsViewController.m */,
+				8A0552261FD1269E00621975 /* PhotoPreviewViewController.h */,
+				8A0552271FD1269E00621975 /* PhotoPreviewViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -111,14 +130,13 @@
 			children = (
 				8A60A0D81FCE2DEC0043219D /* AppDelegate.h */,
 				8A60A0D91FCE2DED0043219D /* AppDelegate.m */,
-				8A4CBD151FCE6B2B00625050 /* TagTableViewCell.h */,
-				8A4CBD161FCE6B2B00625050 /* TagTableViewCell.m */,
+				8A0552251FD11DC200621975 /* Views */,
 				8A4CBD231FD0AA6300625050 /* Models */,
 				8A4CBD131FCE41BF00625050 /* Network */,
 				8A4CBD121FCE409C00625050 /* Controllers */,
-				8A4CBD141FCE42DF00625050 /* Resources */,
 				8A60A0E61FCE2DED0043219D /* Info.plist */,
 				8A60A0E71FCE2DED0043219D /* main.m */,
+				8A4CBD141FCE42DF00625050 /* Resources */,
 			);
 			path = FlickrApp;
 			sourceTree = "<group>";
@@ -195,7 +213,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A4CBD291FD0D06800625050 /* Photo.m in Sources */,
+				8A05522B1FD12DC000621975 /* PhotoCollectionViewCell.m in Sources */,
 				8A4CBD261FD0AA9A00625050 /* Tag.m in Sources */,
+				8A0552281FD1269E00621975 /* PhotoPreviewViewController.m in Sources */,
 				8A60A0DD1FCE2DED0043219D /* TopTagsViewController.m in Sources */,
 				8A60A0E81FCE2DED0043219D /* main.m in Sources */,
 				8A60A0DA1FCE2DED0043219D /* AppDelegate.m in Sources */,

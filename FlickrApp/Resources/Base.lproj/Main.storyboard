@@ -95,7 +95,7 @@
         <!--Photos-->
         <scene sceneID="f2R-cg-ggm">
             <objects>
-                <viewController id="rHQ-C0-Pov" sceneMemberID="viewController">
+                <viewController id="rHQ-C0-Pov" customClass="PhotoPreviewViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="D4S-ea-Dve">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -104,21 +104,39 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="PHJ-q0-w0C">
-                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="itemSize" width="123" height="115"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Photo" id="LxC-PR-XRZ">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Photo" id="LxC-PR-XRZ" customClass="PhotoCollectionViewCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="123" height="115"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="123" height="115"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FoL-wA-p2C">
+                                                    <rect key="frame" x="0.0" y="0.0" width="123" height="115"/>
+                                                </imageView>
+                                            </subviews>
                                         </view>
+                                        <constraints>
+                                            <constraint firstItem="FoL-wA-p2C" firstAttribute="leading" secondItem="LxC-PR-XRZ" secondAttribute="leading" id="Hjt-Ou-t2M"/>
+                                            <constraint firstAttribute="trailing" secondItem="FoL-wA-p2C" secondAttribute="trailing" id="d0v-Sa-xyA"/>
+                                            <constraint firstAttribute="bottom" secondItem="FoL-wA-p2C" secondAttribute="bottom" id="qpx-g1-3qm"/>
+                                            <constraint firstItem="FoL-wA-p2C" firstAttribute="top" secondItem="LxC-PR-XRZ" secondAttribute="top" id="ypp-24-NIS"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="image" destination="FoL-wA-p2C" id="sDB-3b-UzW"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="rHQ-C0-Pov" id="6IE-mj-orN"/>
+                                    <outlet property="delegate" destination="rHQ-C0-Pov" id="db7-OT-WnC"/>
+                                </connections>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -132,12 +150,13 @@
                     </view>
                     <navigationItem key="navigationItem" title="Photos" id="vUR-MI-VQr"/>
                     <connections>
+                        <outlet property="collectionView" destination="yv8-jE-7Oo" id="3Oj-Gh-qvj"/>
                         <segue destination="Ntm-rA-aRM" kind="show" identifier="ShowPhotoSegue" id="wNh-E3-Vgy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ql1-Ne-rgL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1002" y="20"/>
+            <point key="canvasLocation" x="1000.8" y="19.340329835082461"/>
         </scene>
         <!--Photo-->
         <scene sceneID="Rrs-XE-ctM">
@@ -243,6 +262,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="DZ4-Mo-e4v"/>
+        <segue reference="wNh-E3-Vgy"/>
     </inferredMetricsTieBreakers>
 </document>

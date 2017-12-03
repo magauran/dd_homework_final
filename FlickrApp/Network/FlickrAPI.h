@@ -19,7 +19,7 @@
 @interface FlickrAPI: NSObject
 
 - (void)getTopTags:(id<FlickrAPITopTagsDelegate>) delegate;
-- (void)getPhotoByTag:(NSString *)tag completion:(void (^)(Photo *))completion;
+- (void)getPhotoByTag:(NSString *)tag indexNumber:(NSInteger)index completion:(void (^)(Photo *))completion;
 @property(strong,nonatomic) NSArray * tags;
 
 @end

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TagTableViewCell.h"
+#import "PhotoPreviewViewController.h"
 #import "FlickrAPI.h"
 
 @interface TopTagsViewController : UIViewController <FlickrAPITopTagsDelegate, UITableViewDelegate, UITableViewDataSource>

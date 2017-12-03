@@ -69,7 +69,7 @@ static NSString *flickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
                                                                  
                                                                  NSString *title = [tag valueForKeyPath:@"_content"];
                                                                  
-                                                                 [self getPhotoByTag:title indexNumber:0 completion:^(Photo *image) {
+                                                                 [self getPhotoByTag:title indexNumber:0 sizeLiteral:@"" completion:^(Photo *image) {
                                                                      Tag *tag = [[Tag alloc] initWithTitle:title andPhoto:image.source];
                                                                      [outTags addObject:tag];
                                                                      dispatch_semaphore_signal(sema);
@@ -94,7 +94,7 @@ static NSString *flickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
 }
 
 
-- (void)getPhotoByTag:(NSString *)tag indexNumber:(NSInteger)index completion:(void (^)(Photo *))completion {
+- (void)getPhotoByTag:(NSString *)tag indexNumber:(NSInteger)index sizeLiteral:(NSString *)size completion:(void (^)(Photo *))completion {
     NSDictionary *additionalParameters = @{@"tags" : tag
                                            };
     NSURL * url = [self flickrURLForMethod:@"flickr.photos.search"
@@ -109,7 +109,7 @@ static NSString *flickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
                                                                                                                   options:0 error:NULL];
                                                          NSArray *photos = [[results objectForKey:@"photos"] objectForKey:@"photo"];
                                                          
-                                                         Photo *photo = [[Photo alloc] initWithPhotoDictionary:photos[index]];
+                                                         Photo *photo = [[Photo alloc] initWithPhotoDictionary:photos[index] andSize:size];
                                                          
                                                          
                                                          completion(photo);

@@ -12,7 +12,7 @@
 @implementation Photo
 
 
-- (instancetype)initWithPhotoDictionary:(NSDictionary *)dictionary {
+- (instancetype)initWithPhotoDictionary:(NSDictionary *)dictionary andSize:(NSString *)size {
     self = [super init];
     if (!self) {
         return nil;
@@ -24,8 +24,8 @@
     self.farm = dictionary[@"farm"];
     self.title = dictionary[@"title"];
     
-    NSURL *searchURL = [self flickrPhotoURLForFlickrPhoto:self size:@"m"];
-    self.mediumSizePhotoUrl = [self flickrPhotoURLForFlickrPhoto:self size:@""];
+    NSURL *searchURL = [self flickrPhotoURLForFlickrPhoto:self size:size];
+    self.largeSizePhotoUrl = [self flickrPhotoURLForFlickrPhoto:self size:@"_b"];
     NSData *imageData = [NSData dataWithContentsOfURL:searchURL];
     UIImage *image = [UIImage imageWithData:imageData];
     self.source = image;
@@ -44,9 +44,9 @@
 - (NSString *)flickrPhotoURLStringForFlickrPhoto:(Photo *)flickrPhoto
                                             size:(NSString *)size {
     if(!size) {
-        size = @"m";
+        size = @"";
     }
-    return [NSString stringWithFormat:@"https://farm%@.staticflickr.com/%@/%@_%@_%@.jpg",
+    return [NSString stringWithFormat:@"https://farm%@.staticflickr.com/%@/%@_%@%@.jpg",
             flickrPhoto.farm, flickrPhoto.server,
             flickrPhoto.photoId, flickrPhoto.secret, size];
 }

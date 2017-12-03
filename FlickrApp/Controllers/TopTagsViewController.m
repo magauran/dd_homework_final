@@ -37,7 +37,9 @@
     TagTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"tag"];
     Tag *tag = [_topTags objectAtIndex:indexPath.row];
     cell.tagTitle.text = tag.title;
-    cell.tagImage.image = [self imageByCroppingImage:tag.photo toSize:CGSizeMake(self.view.bounds.size.width, 150)] ;
+    CGFloat width = tag.photo.size.width;
+    CGFloat height = width * 150 / self.view.bounds.size.width;
+    cell.tagImage.image = [self imageByCroppingImage:tag.photo toSize:CGSizeMake(width, height)] ;
     return cell;
 }
 
@@ -69,13 +71,15 @@
 
 - (UIImage *)imageByCroppingImage:(UIImage *)image toSize:(CGSize)size {
     
+    
+    
     double refWidth = CGImageGetWidth(image.CGImage);
     double refHeight = CGImageGetHeight(image.CGImage);
     
     double x = (refWidth - size.width) / 2.0;
     double y = (refHeight - size.height) / 2.0;
     
-    CGRect cropRect = CGRectMake(x, y, size.height, size.width);
+    CGRect cropRect = CGRectMake(x, y, size.width, size.height);
     CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], cropRect);
     
     UIImage *cropped = [UIImage imageWithCGImage:imageRef scale:0.0 orientation:UIImageOrientationUp];

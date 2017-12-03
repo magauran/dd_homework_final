@@ -28,7 +28,7 @@
         dispatch_async(queue, ^{
             dispatch_semaphore_t sema = dispatch_semaphore_create(0);
             
-            [flickr getPhotoByTag:self.selectedTag indexNumber:i completion:^(Photo *image) {
+            [flickr getPhotoByTag:self.selectedTag indexNumber:i sizeLiteral:@"_t" completion:^(Photo *image) {
                 [photo addObject:image];
                 dispatch_semaphore_signal(sema);
                 _photos = photo;
@@ -82,7 +82,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqual:@"ShowPhotoSegue"]) {
         PhotoViewController *controller = (PhotoViewController *)segue.destinationViewController;
-        NSURL *url = [(Photo*)sender mediumSizePhotoUrl];
+        NSURL *url = [(Photo*)sender largeSizePhotoUrl];
         UIImage *image = [(Photo *)sender source];
         controller.photoUrl = url;
         controller.lowQualityImage = image;

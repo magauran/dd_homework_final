@@ -11,6 +11,7 @@
 		8A05522B1FD12DC000621975 /* PhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A05522A1FD12DC000621975 /* PhotoCollectionViewCell.m */; };
 		8A05522E1FD37A6200621975 /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A05522D1FD37A6100621975 /* PhotoViewController.m */; };
 		8A0552311FD3F86F00621975 /* UIImage+Cropping.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A0552301FD3F86F00621975 /* UIImage+Cropping.m */; };
+		8A3E8FD51FD49EBE0090E271 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A3E8FD41FD49EBE0090E271 /* SearchViewController.m */; };
 		8A4CBD101FCE406600625050 /* FlickrAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A4CBD0F1FCE406600625050 /* FlickrAPI.m */; };
 		8A4CBD181FCE6B2B00625050 /* TagTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A4CBD161FCE6B2B00625050 /* TagTableViewCell.m */; };
 		8A4CBD261FD0AA9A00625050 /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A4CBD251FD0AA9A00625050 /* Tag.m */; };
@@ -32,6 +33,8 @@
 		8A05522D1FD37A6100621975 /* PhotoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoViewController.m; sourceTree = "<group>"; };
 		8A05522F1FD3F86F00621975 /* UIImage+Cropping.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Cropping.h"; sourceTree = "<group>"; };
 		8A0552301FD3F86F00621975 /* UIImage+Cropping.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Cropping.m"; sourceTree = "<group>"; };
+		8A3E8FD31FD49EBE0090E271 /* SearchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		8A3E8FD41FD49EBE0090E271 /* SearchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		8A4CBD0F1FCE406600625050 /* FlickrAPI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlickrAPI.m; sourceTree = "<group>"; };
 		8A4CBD111FCE407700625050 /* FlickrAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlickrAPI.h; sourceTree = "<group>"; };
 		8A4CBD151FCE6B2B00625050 /* TagTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TagTableViewCell.h; path = FlickrApp/Views/TagTableViewCell.h; sourceTree = SOURCE_ROOT; };
@@ -81,6 +84,8 @@
 				8A60A0DC1FCE2DED0043219D /* TopTagsViewController.m */,
 				8A0552261FD1269E00621975 /* PhotoPreviewViewController.h */,
 				8A0552271FD1269E00621975 /* PhotoPreviewViewController.m */,
+				8A3E8FD31FD49EBE0090E271 /* SearchViewController.h */,
+				8A3E8FD41FD49EBE0090E271 /* SearchViewController.m */,
 				8A05522C1FD37A6100621975 /* PhotoViewController.h */,
 				8A05522D1FD37A6100621975 /* PhotoViewController.m */,
 			);
@@ -232,6 +237,7 @@
 				8A60A0DA1FCE2DED0043219D /* AppDelegate.m in Sources */,
 				8A4CBD181FCE6B2B00625050 /* TagTableViewCell.m in Sources */,
 				8A4CBD101FCE406600625050 /* FlickrAPI.m in Sources */,
+				8A3E8FD51FD49EBE0090E271 /* SearchViewController.m in Sources */,
 				8A05522E1FD37A6200621975 /* PhotoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

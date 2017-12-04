@@ -1,34 +1,47 @@
 //
-//  PhotoPreviewViewController.m
+//  SearchViewController.m
 //  FlickrApp
 //
-//  Created by Алексей on 01.12.2017.
+//  Created by Алексей on 04.12.2017.
 //  Copyright © 2017 Алексей. All rights reserved.
 //
 
-#import "PhotoPreviewViewController.h"
+#import "SearchViewController.h"
 
-@interface PhotoPreviewViewController ()
+@interface SearchViewController ()
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) NSMutableArray *__block photos;
 
 @end
 
-
-@implementation PhotoPreviewViewController
+@implementation SearchViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    // Do any additional setup after loading the view.
+}
+
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    NSString *searchText = searchBar.text;
+    [searchBar resignFirstResponder];
+    [self searchPhotosByTag:searchText];
+}
+
+
+- (void)searchPhotosByTag:(NSString *)tag {
     FlickrAPI *flickr = [[FlickrAPI alloc] init];
     NSMutableArray *__block photo = [[NSMutableArray alloc] initWithCapacity:9];
+    
+    
+    
     dispatch_queue_t queue = dispatch_queue_create("photos", 0);
     for (int i = 0; i < 9; ++i) {
         dispatch_async(queue, ^{
             dispatch_semaphore_t sema = dispatch_semaphore_create(0);
             
-            [flickr getPhotoByTag:self.selectedTag indexNumber:i sizeLiteral:@"_t" completion:^(Photo *image) {
+            [flickr getPhotoByTag:tag indexNumber:i sizeLiteral:@"_t" completion:^(Photo *image) {
                 [photo addObject:image];
                 dispatch_semaphore_signal(sema);
                 _photos = photo;
@@ -42,15 +55,14 @@
             });
         });
     }
-
 }
 
 
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    
     PhotoCollectionViewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Photo" forIndexPath:indexPath];
     
     NSInteger index = indexPath.row;
+    
     if (_photos.count > index) {
         Photo *previewPhoto = [_photos objectAtIndex:index];
         CGFloat side = MIN(previewPhoto.source.size.width, previewPhoto.source.size.height);
@@ -75,13 +87,13 @@
     NSInteger index = indexPath.row;
     Photo *photo = [_photos objectAtIndex:index];
     if (photo) {
-        [self performSegueWithIdentifier:@"ShowPhotoSegue" sender:photo];
+        [self performSegueWithIdentifier:@"ShowPhotoFoundSegue" sender:photo];
     }
 }
 
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqual:@"ShowPhotoSegue"]) {
+    if ([segue.identifier isEqual:@"ShowPhotoFoundSegue"]) {
         PhotoViewController *controller = (PhotoViewController *)segue.destinationViewController;
         NSURL *url = [(Photo*)sender largeSizePhotoUrl];
         UIImage *image = [(Photo *)sender source];

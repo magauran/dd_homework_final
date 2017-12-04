@@ -12,6 +12,7 @@
     @private
      NSInteger _count;
      FlickrAPI *_flickr;
+     NSInteger _photosInRow;
 }
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -25,7 +26,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _count = 9;
+    _count = 15;
     self.collectionView.alwaysBounceVertical = YES;
     self.refreshControl = [[UIRefreshControl alloc] init];
     self.refreshControl.backgroundColor = self.collectionView.backgroundColor;
@@ -41,11 +42,45 @@
 
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(orientationChanged:)    name:UIDeviceOrientationDidChangeNotification  object:nil];
+    [self adjustViewsForOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+    
     if (self.refreshControl.isRefreshing) {
         [self.refreshControl endRefreshing];
         self.collectionView.contentOffset = CGPointMake(0, -self.refreshControl.bounds.size.height);
         [self.refreshControl beginRefreshing];
     }
+}
+
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+}
+
+
+- (void)orientationChanged:(NSNotification *)notification{
+    [self adjustViewsForOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+}
+
+
+- (void) adjustViewsForOrientation:(UIInterfaceOrientation) orientation {
+    switch (orientation) {
+        case UIInterfaceOrientationPortrait:
+        case UIInterfaceOrientationPortraitUpsideDown: {
+            _photosInRow = 3;
+        }
+            
+            break;
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight: {
+            _photosInRow = 5;
+        }
+            break;
+        case UIInterfaceOrientationUnknown: break;
+    }
+    [self.collectionView reloadData];
 }
 
 
@@ -102,7 +137,7 @@
 
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat cellSide = (collectionView.frame.size.width - 20) / 3;
+    CGFloat cellSide = (collectionView.frame.size.width - 10 * (_photosInRow - 1)) / _photosInRow;
     return CGSizeMake(cellSide, cellSide);
 }
 

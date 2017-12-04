@@ -41,11 +41,31 @@
 
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(orientationChanged:)    name:UIDeviceOrientationDidChangeNotification  object:nil];
+    [self adjustViewsForOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+    
     if (self.refreshControl.isRefreshing) {
         [self.refreshControl endRefreshing];
         self.tagsTable.contentOffset = CGPointMake(0, -self.refreshControl.bounds.size.height);
         [self.refreshControl beginRefreshing];
     }
+}
+
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+}
+
+
+- (void)orientationChanged:(NSNotification *)notification{
+    [self adjustViewsForOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+}
+
+
+- (void) adjustViewsForOrientation:(UIInterfaceOrientation) orientation {
+    [self.tagsTable reloadData];
 }
 
 

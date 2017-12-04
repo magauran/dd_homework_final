@@ -76,7 +76,6 @@ static NSString *flickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
                                                                      
                                                                  }];
                                                                  dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
-                                                                 NSLog(@"Got one photo.");
                                                              });
                                                              
                                                          }
@@ -95,6 +94,10 @@ static NSString *flickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
 
 
 - (void)getPhotoByTag:(NSString *)tag indexNumber:(NSInteger)index sizeLiteral:(NSString *)size completion:(void (^)(Photo *))completion {
+    if (!tag) {
+        completion(nil);
+        return;
+    }
     NSDictionary *additionalParameters = @{@"tags" : tag
                                            };
     NSURL * url = [self flickrURLForMethod:@"flickr.photos.search"
@@ -107,15 +110,22 @@ static NSString *flickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
                                                          NSData * jsonResults = [NSData dataWithContentsOfURL:url];
                                                          NSDictionary * results = [NSJSONSerialization JSONObjectWithData:jsonResults
                                                                                                                   options:0 error:NULL];
+                                                         
+                                                         if ([[results objectForKey:@"stat"] isEqual:@"fail"]) {
+                                                             completion(nil);
+                                                         }
+                                                         
                                                          NSArray *photos = [[results objectForKey:@"photos"] objectForKey:@"photo"];
-                                                         
-                                                         Photo *photo = [[Photo alloc] initWithPhotoDictionary:photos[index] andSize:size];
-                                                         
-                                                         
-                                                         completion(photo);
+                                                         if (photos.count > index) {
+                                                             Photo *photo = [[Photo alloc] initWithPhotoDictionary:photos[index] andSize:size];
+                                                             completion(photo);
+                                                         } else {
+                                                             completion(nil);
+                                                         }
                                                          
                                                      } else {
-                                                         NSLog(@"%@", error);
+                                                         NSLog(@"ERROR: %ld", error.code);
+                                                         completion(nil);
                                                      }
                                                  }];
     [task resume];

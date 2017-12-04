@@ -64,12 +64,22 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="NOw-Gd-MnI"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="3tM-53-UWm">
+                                <rect key="frame" x="168" y="282" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="kkf-Ki-wIH"/>
+                                    <constraint firstAttribute="width" constant="40" id="znF-I2-37j"/>
+                                </constraints>
+                                <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="aKJ-EC-mKH" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="2zK-sC-zkY"/>
                             <constraint firstItem="aKJ-EC-mKH" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="8aa-YF-ohp"/>
                             <constraint firstItem="aKJ-EC-mKH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Hks-Xb-J6g"/>
+                            <constraint firstItem="3tM-53-UWm" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="Mka-sF-ciZ"/>
+                            <constraint firstItem="3tM-53-UWm" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="SJu-Bp-72B"/>
                             <constraint firstItem="aKJ-EC-mKH" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="zaG-vd-Fxk"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -83,6 +93,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="3tM-53-UWm" id="KKI-TT-KaX"/>
                         <outlet property="tagsTable" destination="aKJ-EC-mKH" id="joh-GR-PX6"/>
                         <segue destination="rHQ-C0-Pov" kind="show" identifier="TagSegue" id="Rpy-oj-yGh"/>
                     </connections>
@@ -261,12 +272,21 @@
                                     <outlet property="delegate" destination="SPd-7P-ZPt" id="HHp-9Z-57v"/>
                                 </connections>
                             </collectionView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="search-icon" translatesAutoresizingMaskIntoConstraints="NO" id="L8q-jI-GV1">
+                                <rect key="frame" x="123" y="237" width="128" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="128" id="7K6-BM-SQc"/>
+                                    <constraint firstAttribute="height" constant="128" id="w9j-EB-OCh"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="3y1-Us-5zU" firstAttribute="trailing" secondItem="SMA-7A-mDL" secondAttribute="trailing" id="2CR-Pc-Jz7"/>
                             <constraint firstItem="SMA-7A-mDL" firstAttribute="top" secondItem="rbn-XM-Dcz" secondAttribute="bottom" id="BGC-O2-nOH"/>
                             <constraint firstItem="3y1-Us-5zU" firstAttribute="bottom" secondItem="SMA-7A-mDL" secondAttribute="bottom" id="EGT-pm-fXz"/>
+                            <constraint firstItem="L8q-jI-GV1" firstAttribute="centerY" secondItem="3y1-Us-5zU" secondAttribute="centerY" id="J59-8b-A3o"/>
+                            <constraint firstItem="L8q-jI-GV1" firstAttribute="centerX" secondItem="3y1-Us-5zU" secondAttribute="centerX" id="Lqb-4V-Sfd"/>
                             <constraint firstItem="rbn-XM-Dcz" firstAttribute="top" secondItem="3y1-Us-5zU" secondAttribute="top" id="Yeu-Kq-OJh"/>
                             <constraint firstItem="rbn-XM-Dcz" firstAttribute="trailing" secondItem="3y1-Us-5zU" secondAttribute="trailing" id="d9b-6m-ITM"/>
                             <constraint firstItem="rbn-XM-Dcz" firstAttribute="leading" secondItem="3y1-Us-5zU" secondAttribute="leading" id="jmU-nh-ner"/>
@@ -277,6 +297,7 @@
                     <navigationItem key="navigationItem" title="Search" id="YFX-3f-ClA"/>
                     <connections>
                         <outlet property="collectionView" destination="SMA-7A-mDL" id="SZS-eh-Zy1"/>
+                        <outlet property="searchIcon" destination="L8q-jI-GV1" id="NmI-H3-8YG"/>
                         <segue destination="Ntm-rA-aRM" kind="show" identifier="ShowPhotoFoundSegue" id="DZ4-Mo-e4v"/>
                     </connections>
                 </viewController>
@@ -306,6 +327,9 @@
             <point key="canvasLocation" x="-657" y="-231"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="search-icon" width="614" height="614"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="DZ4-Mo-e4v"/>
     </inferredMetricsTieBreakers>

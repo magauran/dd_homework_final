@@ -13,6 +13,9 @@
 
 @property (strong, nonatomic) NSArray *topTags;
 @property (weak, nonatomic) IBOutlet UITableView *tagsTable;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) FlickrAPI *flickr;
 
 @end
 
@@ -22,14 +25,33 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    FlickrAPI *flickr = [[FlickrAPI alloc] init];
-    [flickr getTopTags:self];
+    [_tagsTable setHidden:true];
+    _flickr = [[FlickrAPI alloc] init];
+    [_flickr getTopTags:self];
+    [self.activityIndicator startAnimating];
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    self.refreshControl.backgroundColor = self.tagsTable.backgroundColor;
+    self.refreshControl.tintColor = [UIColor blackColor];
+    [self.refreshControl addTarget:self
+                            action:@selector(updateTable)
+                  forControlEvents:UIControlEventValueChanged];
+    [self.tagsTable addSubview:self.refreshControl];
+}
+
+
+- (void)updateTable {
+    self.flickr = [[FlickrAPI alloc] init];
+    [self.flickr getTopTags:self];
 }
 
 
 - (void)setTopTags:(NSArray *)tags {
     _topTags = tags;
     [_tagsTable reloadData];
+    [_tagsTable setHidden:false];
+    [self.activityIndicator stopAnimating];
+    [self.refreshControl endRefreshing];
 }
 
 

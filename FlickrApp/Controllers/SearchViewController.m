@@ -54,6 +54,7 @@
         self.searchIcon.image = [UIImage imageNamed:@"search-icon"];
         [self.collectionView reloadData];
         [self.searchIcon setHidden:false];
+        [self.refreshControl endRefreshing];
     } else {
         [self.searchIcon setHidden:true];
         [self updateCollection];

@@ -40,6 +40,15 @@
 }
 
 
+- (void)viewWillAppear:(BOOL)animated {
+    if (self.refreshControl.isRefreshing) {
+        [self.refreshControl endRefreshing];
+        self.tagsTable.contentOffset = CGPointMake(0, -self.refreshControl.bounds.size.height);
+        [self.refreshControl beginRefreshing];
+    }
+}
+
+
 - (void)updateTable {
     self.flickr = [[FlickrAPI alloc] init];
     [self.flickr getTopTags:self];

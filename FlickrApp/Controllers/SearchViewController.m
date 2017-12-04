@@ -39,10 +39,20 @@
 }
 
 
+- (void)viewWillAppear:(BOOL)animated {
+    if (self.refreshControl.isRefreshing) {
+        [self.refreshControl endRefreshing];
+        self.collectionView.contentOffset = CGPointMake(0, -self.refreshControl.bounds.size.height);
+        [self.refreshControl beginRefreshing];
+    }
+}
+
+
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     NSString *searchText = searchBar.text;
     [searchBar resignFirstResponder];
-    [self.refreshControl beginRefreshing]; // don't work
+    [self.refreshControl beginRefreshing];
+    self.collectionView.contentOffset = CGPointMake(0, -self.refreshControl.bounds.size.height);
     [self searchPhotosByTag:searchText];
 }
 

@@ -26,6 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _count = 9;
+   // self.collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentScrollableAxes;
     self.collectionView.alwaysBounceVertical = YES;
     self.refreshControl = [[UIRefreshControl alloc] init];
     self.refreshControl.backgroundColor = self.collectionView.backgroundColor;
@@ -35,7 +36,17 @@
                   forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:self.refreshControl];
     [self.refreshControl beginRefreshing];
+    
     [self updateCollection];
+}
+
+
+- (void)viewWillAppear:(BOOL)animated {
+    if (self.refreshControl.isRefreshing) {
+        [self.refreshControl endRefreshing];
+        self.collectionView.contentOffset = CGPointMake(0, -self.refreshControl.bounds.size.height);
+        [self.refreshControl beginRefreshing];
+    }
 }
 
 

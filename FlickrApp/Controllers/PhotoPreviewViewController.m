@@ -26,7 +26,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _count = 9;
-   // self.collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentScrollableAxes;
     self.collectionView.alwaysBounceVertical = YES;
     self.refreshControl = [[UIRefreshControl alloc] init];
     self.refreshControl.backgroundColor = self.collectionView.backgroundColor;
@@ -52,9 +51,9 @@
 
 - (void)updateCollection {
     _flickr = [[FlickrAPI alloc] init];
-    NSMutableArray *__block photo = [[NSMutableArray alloc] initWithCapacity:9];
+    NSMutableArray *__block photo = [[NSMutableArray alloc] initWithCapacity:_count];
     dispatch_queue_t queue = dispatch_queue_create("photos", 0);
-    for (int i = 0; i < 9; ++i) {
+    for (int i = 0; i < _count; ++i) {
         dispatch_async(queue, ^{
             dispatch_semaphore_t sema = dispatch_semaphore_create(0);
             
@@ -98,7 +97,7 @@
 
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return _count;
+    return self.photos.count;
 }
 
 

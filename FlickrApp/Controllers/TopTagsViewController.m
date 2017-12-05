@@ -31,7 +31,9 @@ static const NSInteger kTagsCount = 10;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [_tagsTable setHidden:true];
+    
     _flickr = [[FlickrAPI alloc] init];
     [self updateTable];
     [_activityIndicator startAnimating];
@@ -47,6 +49,8 @@ static const NSInteger kTagsCount = 10;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [_tagsTable setContentOffset:CGPointMake(0, -CGRectGetHeight(UIApplication.sharedApplication.statusBarFrame)) animated:false];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(orientationChanged:)    name:UIDeviceOrientationDidChangeNotification  object:nil];
     [self adjustViewsForOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
     
@@ -70,6 +74,7 @@ static const NSInteger kTagsCount = 10;
     Tag *tag = [_topTags objectAtIndex:indexPath.row];
     cell.tagTitle.text = tag.title;
     cell.backgroundColor = UIColor.blackColor;
+    cell.selectionStyle = UITableViewCellSeparatorStyleNone;
     
     if (tag.photo.photoUrl) {
         NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithURL:tag.photo.photoUrl completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {

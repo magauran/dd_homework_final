@@ -46,7 +46,7 @@ static NSString *const kFlickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
 - (void)getTopTagsWithCount:(NSInteger)count completion:(void (^)(NSArray *))completion {
   
     NSDictionary *additionalParameters = @{@"period" : @"day",
-                                           @"count" : @"5"
+                                           @"count" : @(count).stringValue
                                            };
     NSURL *url = [self flickrURLForMethod:@"flickr.tags.getHotList"
                             withParameters:additionalParameters];

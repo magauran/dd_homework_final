@@ -89,6 +89,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Hot tags" id="ytb-q1-uLC">
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="search" id="fDB-pv-vIA">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -102,7 +103,7 @@
                         <outlet property="_tagsTable" destination="aKJ-EC-mKH" id="Xvq-JB-b5w"/>
                         <outlet property="activityIndicator" destination="3tM-53-UWm" id="KKI-TT-KaX"/>
                         <outlet property="tagsTable" destination="aKJ-EC-mKH" id="joh-GR-PX6"/>
-                        <segue destination="rHQ-C0-Pov" kind="show" identifier="TagSegue" id="Rpy-oj-yGh"/>
+                        <segue destination="rHQ-C0-Pov" kind="show" identifier="TagSegue" animates="NO" id="Rpy-oj-yGh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -112,7 +113,7 @@
         <!--Photos-->
         <scene sceneID="f2R-cg-ggm">
             <objects>
-                <viewController id="rHQ-C0-Pov" customClass="PhotoPreviewViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="rHQ-C0-Pov" customClass="PhotoPreviewViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="D4S-ea-Dve">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -165,6 +166,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2f3-oz-rHf"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Photos" id="vUR-MI-VQr"/>
                     <connections>
                         <outlet property="_collectionView" destination="yv8-jE-7Oo" id="OqF-vH-fJZ"/>
@@ -210,7 +212,7 @@
         <!--Search-->
         <scene sceneID="oZg-MX-Puh">
             <objects>
-                <viewController id="SPd-7P-ZPt" customClass="SearchViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="SPd-7P-ZPt" customClass="SearchViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bK5-Mg-SPL">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -287,6 +289,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="3y1-Us-5zU"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" title="Search" id="YFX-3f-ClA"/>
                     <connections>
                         <outlet property="_collectionView" destination="SMA-7A-mDL" id="u12-2f-lWS"/>

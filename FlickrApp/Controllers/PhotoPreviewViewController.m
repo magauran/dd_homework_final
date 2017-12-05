@@ -82,6 +82,8 @@ static const NSInteger kPhotosCount = 15;
                             PhotoCollectionViewCell *updateCell = (id)[collectionView cellForItemAtIndexPath:indexPath];
                             if (updateCell) {
                                 updateCell.image.image = image;
+                                previewPhoto.source = image;
+                                _photos[index] = previewPhoto;
                             }
                         });
                     }

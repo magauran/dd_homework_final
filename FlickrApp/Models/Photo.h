@@ -17,6 +17,7 @@
 @property (strong, nonatomic) NSString *farm;
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) UIImage *source;
+@property (strong, nonatomic) NSURL *photoUrl;
 @property (strong, nonatomic) NSURL *largeSizePhotoUrl;
 
 - (instancetype)initWithPhotoDictionary:(NSDictionary *)dictionary andSize:(NSString *)size;

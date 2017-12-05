@@ -88,29 +88,25 @@
     _flickr = [[FlickrAPI alloc] init];
     NSMutableArray *__block photo = [[NSMutableArray alloc] initWithCapacity:_count];
     dispatch_queue_t queue = dispatch_queue_create("photos", 0);
-    for (int i = 0; i < _count; ++i) {
-        dispatch_async(queue, ^{
-            dispatch_semaphore_t sema = dispatch_semaphore_create(0);
-            
-            [_flickr getPhotoByTag:self.selectedTag indexNumber:i sizeLiteral:@"_t" completion:^(Photo *image) {
-                if (image) {
-                    [photo addObject:image];
-                }
-                self.photos = photo;
-                dispatch_semaphore_signal(sema);
-            }];
-            dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
-        });
-        
-        dispatch_async(queue, ^{
-            dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(queue, ^{
+        [_flickr getPhotosByTag:self.selectedTag count:_count sizeLiteral:@"_t" completion:^(NSArray *retPhotos) {
+            if (retPhotos) {
+                [photo addObjectsFromArray:retPhotos];
+            }
+            self.photos = photo;
+            for (Photo *i in self.photos) {
+                NSData *imageData = [NSData dataWithContentsOfURL:i.photoUrl];
+                UIImage *image = [UIImage imageWithData:imageData];
+                i.source = image;
+            dispatch_sync(dispatch_get_main_queue(), ^{
                 [_collectionView reloadData];
-                if (i == _count - 1) {
-                    [_refreshControl endRefreshing];
-                }
-            });
-        });
-    }
+                    if (i == self.photos.lastObject) {
+                        [self.refreshControl endRefreshing];
+                    }
+                });
+            }
+        }];
+    });
 }
 
 
@@ -132,7 +128,7 @@
 
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.photos.count;
+    return 15;//self.photos.count;
 }
 
 

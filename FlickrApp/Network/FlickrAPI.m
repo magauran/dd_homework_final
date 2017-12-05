@@ -70,6 +70,9 @@ static NSString *flickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
                                                                  NSString *title = [tag valueForKeyPath:@"_content"];
                                                                  
                                                                  [self getPhotoByTag:title indexNumber:0 sizeLiteral:@"" completion:^(Photo *image) {
+                                                                     NSData *imageData = [NSData dataWithContentsOfURL:image.photoUrl];
+                                                                     UIImage *source = [UIImage imageWithData:imageData];
+                                                                     image.source = source;
                                                                      Tag *tag = [[Tag alloc] initWithTitle:title andPhoto:image.source];
                                                                      [outTags addObject:tag];
                                                                      dispatch_semaphore_signal(sema);
@@ -119,6 +122,50 @@ static NSString *flickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
                                                          if (photos.count > index) {
                                                              Photo *photo = [[Photo alloc] initWithPhotoDictionary:photos[index] andSize:size];
                                                              completion(photo);
+                                                         } else {
+                                                             completion(nil);
+                                                         }
+                                                         
+                                                     } else {
+                                                         NSLog(@"ERROR: %ld", error.code);
+                                                         completion(nil);
+                                                     }
+                                                 }];
+    [task resume];
+}
+
+
+- (void)getPhotosByTag:(NSString *)tag count:(NSInteger)count sizeLiteral:(NSString *)size completion:(void (^)(NSArray *))completion {
+    if (!tag) {
+        completion(nil);
+        return;
+    }
+    NSDictionary *additionalParameters = @{@"tags" : tag
+                                           };
+    NSURL * url = [self flickrURLForMethod:@"flickr.photos.search"
+                            withParameters:additionalParameters];
+    
+    NSURLSession * session = [NSURLSession sharedSession];
+    NSURLSessionDownloadTask * task = [session downloadTaskWithURL:url
+                                                 completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                                                     if (!error) {
+                                                         NSData * jsonResults = [NSData dataWithContentsOfURL:url];
+                                                         NSDictionary * results = [NSJSONSerialization JSONObjectWithData:jsonResults
+                                                                                                                  options:0 error:NULL];
+                                                         
+                                                         if ([[results objectForKey:@"stat"] isEqual:@"fail"]) {
+                                                             completion(nil);
+                                                         }
+                                                         
+                                                         NSArray *photos = [[results objectForKey:@"photos"] objectForKey:@"photo"];
+                                                         
+                                                         NSMutableArray *retPhotos = [[NSMutableArray alloc] init];
+                                                         for (int i = 0; i < count & i < photos.count; ++i) {
+                                                             Photo *photo = [[Photo alloc] initWithPhotoDictionary:photos[i] andSize:size];
+                                                             [retPhotos addObject:photo];
+                                                         }
+                                                         if (retPhotos.count > 0) {
+                                                             completion(retPhotos);
                                                          } else {
                                                              completion(nil);
                                                          }

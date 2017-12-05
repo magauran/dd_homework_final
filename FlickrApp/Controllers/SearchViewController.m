@@ -28,12 +28,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _count = 15;
+    _searchTag = @"";
     self.collectionView.alwaysBounceVertical = YES;
     self.refreshControl = [[UIRefreshControl alloc] init];
     self.refreshControl.backgroundColor = self.collectionView.backgroundColor;
     self.refreshControl.tintColor = [UIColor blackColor];
     [self.refreshControl addTarget:self
-                            action:@selector(updateCollection)
+                            action:@selector(searchPhotos)
                   forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:self.refreshControl];
     
@@ -86,15 +87,17 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     NSString *searchText = searchBar.text;
     [searchBar resignFirstResponder];
+    
+    self.collectionView.contentOffset = CGPointMake(0, -60);
     [self.refreshControl beginRefreshing];
-    self.collectionView.contentOffset = CGPointMake(0, -self.refreshControl.bounds.size.height);
-    [self searchPhotosByTag:searchText];
+    
+    _searchTag = searchText;
+    [self searchPhotos];
 }
 
 
-- (void)searchPhotosByTag:(NSString *)tag {
-    _searchTag = tag;
-    if ([tag  isEqual: @""]) {
+- (void)searchPhotos {
+    if ([_searchTag  isEqual: @""]) {
         [_photos removeAllObjects];
         self.searchIcon.image = [UIImage imageNamed:@"search-icon"];
         [self.collectionView reloadData];
@@ -104,7 +107,6 @@
         [self.searchIcon setHidden:true];
         [self updateCollection];
     }
-
 }
 
 
@@ -112,33 +114,33 @@
     _flickr = [[FlickrAPI alloc] init];
     NSMutableArray *__block photo = [[NSMutableArray alloc] initWithCapacity:_count];
     dispatch_queue_t queue = dispatch_queue_create("photos", 0);
-    for (int i = 0; i < _count; ++i) {
-        dispatch_async(queue, ^{
-            dispatch_semaphore_t sema = dispatch_semaphore_create(0);
-            
-            [_flickr getPhotoByTag:_searchTag indexNumber:i sizeLiteral:@"_t" completion:^(Photo *image) {
-                if (image) {
-                    [photo addObject:image];
-                }
-                self.photos = photo;
-                dispatch_semaphore_signal(sema);
-            }];
-            dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
-        });
-        
-        dispatch_async(queue, ^{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [_collectionView reloadData];
-                if (i == _count - 1) {
-                    [_refreshControl endRefreshing];
-                }
+    dispatch_async(queue, ^{
+        [_flickr getPhotosByTag:_searchTag count:_count sizeLiteral:@"_t" completion:^(NSArray *retPhotos) {
+            if (retPhotos) {
+                [photo addObjectsFromArray:retPhotos];
+            }
+            self.photos = photo;
+            for (Photo *i in self.photos) {
+                NSData *imageData = [NSData dataWithContentsOfURL:i.photoUrl];
+                UIImage *image = [UIImage imageWithData:imageData];
+                i.source = image;
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [_collectionView reloadData];
+                    if (i == self.photos.lastObject) {
+                        [self.refreshControl endRefreshing];
+                    }
+                    
+                });
+            }
+            dispatch_sync(dispatch_get_main_queue(), ^{
                 if (self.photos.count == 0) {
                     self.searchIcon.image = [UIImage imageNamed:@"error-search-icon"];
                     [self.searchIcon setHidden:false];
+                    [self.refreshControl endRefreshing];
                 }
             });
-        });
-    }
+        }];
+    });
 }
 
 

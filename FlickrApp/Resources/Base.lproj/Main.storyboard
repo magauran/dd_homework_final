@@ -98,6 +98,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="_activityIndicator" destination="3tM-53-UWm" id="gU5-bk-SaF"/>
+                        <outlet property="_tagsTable" destination="aKJ-EC-mKH" id="Xvq-JB-b5w"/>
                         <outlet property="activityIndicator" destination="3tM-53-UWm" id="KKI-TT-KaX"/>
                         <outlet property="tagsTable" destination="aKJ-EC-mKH" id="joh-GR-PX6"/>
                         <segue destination="rHQ-C0-Pov" kind="show" identifier="TagSegue" id="Rpy-oj-yGh"/>
@@ -165,6 +167,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Photos" id="vUR-MI-VQr"/>
                     <connections>
+                        <outlet property="_collectionView" destination="yv8-jE-7Oo" id="OqF-vH-fJZ"/>
                         <outlet property="collectionView" destination="yv8-jE-7Oo" id="3Oj-Gh-qvj"/>
                         <segue destination="Ntm-rA-aRM" kind="show" identifier="ShowPhotoSegue" id="wNh-E3-Vgy"/>
                     </connections>
@@ -196,6 +199,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Photo" id="cIP-Kz-46i"/>
                     <connections>
+                        <outlet property="_photo" destination="5a5-MK-XlC" id="l1q-xR-k6X"/>
                         <outlet property="photo" destination="5a5-MK-XlC" id="y3M-Rs-RGt"/>
                     </connections>
                 </viewController>
@@ -261,7 +265,7 @@
                                     <outlet property="delegate" destination="SPd-7P-ZPt" id="HHp-9Z-57v"/>
                                 </connections>
                             </collectionView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="search-icon" translatesAutoresizingMaskIntoConstraints="NO" id="L8q-jI-GV1">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SearchIcon" translatesAutoresizingMaskIntoConstraints="NO" id="L8q-jI-GV1">
                                 <rect key="frame" x="96" y="144" width="128" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="128" id="7K6-BM-SQc"/>
@@ -285,6 +289,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="Search" id="YFX-3f-ClA"/>
                     <connections>
+                        <outlet property="_collectionView" destination="SMA-7A-mDL" id="u12-2f-lWS"/>
+                        <outlet property="_searchIcon" destination="L8q-jI-GV1" id="9XH-Vm-tYa"/>
                         <outlet property="collectionView" destination="SMA-7A-mDL" id="SZS-eh-Zy1"/>
                         <outlet property="searchIcon" destination="L8q-jI-GV1" id="NmI-H3-8YG"/>
                         <segue destination="Ntm-rA-aRM" kind="show" identifier="ShowPhotoFoundSegue" id="DZ4-Mo-e4v"/>
@@ -317,7 +323,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="search-icon" width="614" height="614"/>
+        <image name="SearchIcon" width="614" height="614"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="wNh-E3-Vgy"/>

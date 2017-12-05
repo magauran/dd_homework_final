@@ -8,7 +8,9 @@
 
 #import "Tag.h"
 
+
 @implementation Tag
+
 
 - (id) initWithTitle: (NSString *)title andPhoto: (Photo *)photo {
     self = [super init];
@@ -18,5 +20,6 @@
     }
     return self;
 }
+
 
 @end

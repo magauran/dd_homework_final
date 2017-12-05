@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface TagTableViewCell : UITableViewCell
+
 
 @property (weak, nonatomic) IBOutlet UILabel *tagTitle;
 @property (weak, nonatomic) IBOutlet UIImageView *tagImage;
+
 
 @end

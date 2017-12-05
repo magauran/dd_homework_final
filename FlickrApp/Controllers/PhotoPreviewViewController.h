@@ -11,8 +11,11 @@
 #import "PhotoViewController.h"
 #import "FlickrAPI.h"
 
+
 @interface PhotoPreviewViewController : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource>
 
+
 @property (strong, nonatomic) NSString *selectedTag;
+
 
 @end

@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+
 @interface Photo : NSObject
+
 
 @property (strong, nonatomic) NSString *photoId;
 @property (strong, nonatomic) NSString *secret;
@@ -21,5 +23,6 @@
 @property (strong, nonatomic) NSURL *largeSizePhotoUrl;
 
 - (instancetype)initWithPhotoDictionary:(NSDictionary *)dictionary andSize:(NSString *)size;
+
 
 @end

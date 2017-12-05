@@ -11,6 +11,8 @@
 #import "PhotoCollectionViewCell.h"
 #import "PhotoViewController.h"
 
+
 @interface SearchViewController : UIViewController <UISearchBarDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
+
 
 @end

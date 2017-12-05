@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UIImage+Cropping.h"
+
 
 @interface PhotoViewController : UIViewController
 
+
 @property (strong, nonatomic) NSURL *photoUrl;
 @property (strong, nonatomic) UIImage *lowQualityImage;
+
 
 @end

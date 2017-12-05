@@ -9,30 +9,31 @@
 
 #import "FlickrAPI.h"
 
+
 @implementation FlickrAPI
 
-static NSString *flickrBaseUrl = @"https://api.flickr.com/services/rest";
 
-static NSString *flickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
+static NSString *const kFlickrBaseUrl = @"https://api.flickr.com/services/rest";
+static NSString *const kFlickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
 
 
 - (NSURL *)flickrURLForMethod:(NSString *)method withParameters:(NSDictionary *)parameters {
-    NSURLComponents *components = [[NSURLComponents alloc] initWithString:flickrBaseUrl];
+    NSURLComponents *components = [[NSURLComponents alloc] initWithString:kFlickrBaseUrl];
     NSMutableArray *queryItems = [[NSMutableArray alloc] init];
-    NSDictionary *baseParameters = @{ @"method" : method,
-                                  @"format" : @"json",
-                                  @"nojsoncallback" : @"1",
-                                  @"api_key" : flickrAPIKey
-                                  };
+    NSDictionary *baseParameters = @{@"method" : method,
+                                     @"format" : @"json",
+                                     @"nojsoncallback" : @"1",
+                                     @"api_key" : kFlickrAPIKey
+                                    };
     
     [baseParameters enumerateKeysAndObjectsUsingBlock: ^(id key, id obj, BOOL *stop) {
-        NSURLQueryItem * item = [[NSURLQueryItem alloc] initWithName:key value:obj];
+        NSURLQueryItem *item = [[NSURLQueryItem alloc] initWithName:key value:obj];
         [queryItems addObject:item];
     }];
     
     if (parameters) {
         [parameters enumerateKeysAndObjectsUsingBlock: ^(id key, id obj, BOOL *stop) {
-            NSURLQueryItem * item = [[NSURLQueryItem alloc] initWithName:key value:obj];
+            NSURLQueryItem *item = [[NSURLQueryItem alloc] initWithName:key value:obj];
             [queryItems addObject:item];
         }];
     }
@@ -47,14 +48,14 @@ static NSString *flickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
     NSDictionary *additionalParameters = @{@"period" : @"day",
                                            @"count" : @"5"
                                            };
-    NSURL * url = [self flickrURLForMethod:@"flickr.tags.getHotList"
+    NSURL *url = [self flickrURLForMethod:@"flickr.tags.getHotList"
                             withParameters:additionalParameters];
     
-    NSURLSession * session = [NSURLSession sharedSession];
-    NSURLSessionTask * task = [session dataTaskWithURL:url
-                                     completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionTask *task = [session dataTaskWithURL:url
+                                     completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {
                                                      if (!error) {
-                                                         NSDictionary * results = [NSJSONSerialization JSONObjectWithData:data
+                                                         NSDictionary *results = [NSJSONSerialization JSONObjectWithData:data
                                                                         options:0 error:NULL];
                                                          
                                                          if ([[results objectForKey:@"stat"] isEqual:@"fail"]) {
@@ -62,16 +63,16 @@ static NSString *flickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
                                                          }
                                                          
                                                          NSArray *tags = [[results objectForKey:@"hottags"] objectForKey:@"tag"];
-                                                         NSMutableArray *retTags = [[NSMutableArray alloc] init];
+                                                         NSMutableArray *returnTags = [[NSMutableArray alloc] init];
                                                         
-                                                         for (int i = 0; i < count & i < tags.count; ++i) {
+                                                         for (NSInteger i = 0; i < count & i < tags.count; ++i) {
                                                              NSString *title = [tags[i] valueForKeyPath:@"_content"];
                                                              
                                                              Tag *tag = [[Tag alloc] initWithTitle:title andPhoto:nil];
-                                                             [retTags addObject:tag];
+                                                             [returnTags addObject:tag];
                                                          }
-                                                         if (retTags.count > 0) {
-                                                             completion(retTags);
+                                                         if (returnTags.count > 0) {
+                                                             completion(returnTags);
                                                          } else {
                                                              completion(nil);
                                                          }
@@ -90,16 +91,15 @@ static NSString *flickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
         completion(nil);
         return;
     }
-    NSDictionary *additionalParameters = @{@"tags" : tag
-                                           };
-    NSURL * url = [self flickrURLForMethod:@"flickr.photos.search"
+    NSDictionary *additionalParameters = @{@"tags" : tag};
+    NSURL *url = [self flickrURLForMethod:@"flickr.photos.search"
                             withParameters:additionalParameters];
 
-    NSURLSession * session = [NSURLSession sharedSession];
-    NSURLSessionTask * task = [session dataTaskWithURL:url
-                                     completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionTask *task = [session dataTaskWithURL:url
+                                     completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {
                                          if (!error) {
-                                             NSDictionary * results = [NSJSONSerialization JSONObjectWithData:data
+                                             NSDictionary *results = [NSJSONSerialization JSONObjectWithData:data
                                                             options:0 error:NULL];
                                                          
                                                          if ([[results objectForKey:@"stat"] isEqual:@"fail"]) {
@@ -128,16 +128,15 @@ static NSString *flickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
         completion(nil);
         return;
     }
-    NSDictionary *additionalParameters = @{@"tags" : tag
-                                           };
-    NSURL * url = [self flickrURLForMethod:@"flickr.photos.search"
+    NSDictionary *additionalParameters = @{@"tags" : tag};
+    NSURL *url = [self flickrURLForMethod:@"flickr.photos.search"
                             withParameters:additionalParameters];
     
-    NSURLSession * session = [NSURLSession sharedSession];
-    NSURLSessionTask * task = [session dataTaskWithURL:url
-                                     completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionTask *task = [session dataTaskWithURL:url
+                                     completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {
                                          if (!error) {
-                                             NSDictionary * results = [NSJSONSerialization JSONObjectWithData:data
+                                             NSDictionary *results = [NSJSONSerialization JSONObjectWithData:data
                                                             options:0
                                                               error:NULL];
                                              if ([[results objectForKey:@"stat"] isEqual:@"fail"]) {
@@ -146,13 +145,13 @@ static NSString *flickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
                                                          
                                              NSArray *photos = [[results objectForKey:@"photos"] objectForKey:@"photo"];
                                                          
-                                             NSMutableArray *retPhotos = [[NSMutableArray alloc] init];
-                                                for (int i = 0; i < count & i < photos.count; ++i) {
+                                             NSMutableArray *returnPhotos = [[NSMutableArray alloc] init];
+                                                for (NSInteger i = 0; i < count & i < photos.count; ++i) {
                                                     Photo *photo = [[Photo alloc] initWithPhotoDictionary:photos[i] andSize:size];
-                                                    [retPhotos addObject:photo];
+                                                    [returnPhotos addObject:photo];
                                                 }
-                                                if (retPhotos.count > 0) {
-                                                    completion(retPhotos);
+                                                if (returnPhotos.count > 0) {
+                                                    completion(returnPhotos);
                                                 } else {
                                                     completion(nil);
                                                 }

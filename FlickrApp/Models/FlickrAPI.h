@@ -13,9 +13,12 @@
 
 @interface FlickrAPI: NSObject
 
+
+@property (strong, nonatomic) NSArray *tags;
+
 - (void)getTopTagsWithCount:(NSInteger)count completion:(void (^)(NSArray *))completion;
 - (void)getPhotoByTag:(NSString *)tag indexNumber:(NSInteger)index sizeLiteral:(NSString *)size completion:(void (^)(Photo *))completion;
 - (void)getPhotosByTag:(NSString *)tag count:(NSInteger)count sizeLiteral:(NSString *)size completion:(void (^)(NSArray *))completion;
-@property(strong,nonatomic) NSArray * tags;
+
 
 @end

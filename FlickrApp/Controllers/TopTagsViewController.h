@@ -10,7 +10,7 @@
 #import "TagTableViewCell.h"
 #import "PhotoPreviewViewController.h"
 #import "FlickrAPI.h"
-#import "UIImage+Cropping.h"
+
 
 @interface TopTagsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 

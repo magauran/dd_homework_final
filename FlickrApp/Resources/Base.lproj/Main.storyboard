@@ -186,23 +186,39 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5a5-MK-XlC">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" maximumZoomScale="3" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jOB-mV-IKQ">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </imageView>
+                                <subviews>
+                                    <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5a5-MK-XlC">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="5a5-MK-XlC" secondAttribute="trailing" id="Ofv-Jq-Ev7"/>
+                                    <constraint firstItem="5a5-MK-XlC" firstAttribute="centerY" secondItem="jOB-mV-IKQ" secondAttribute="centerY" id="UEh-0s-20g"/>
+                                    <constraint firstItem="5a5-MK-XlC" firstAttribute="centerX" secondItem="jOB-mV-IKQ" secondAttribute="centerX" id="VMl-uO-SCZ"/>
+                                    <constraint firstItem="5a5-MK-XlC" firstAttribute="leading" secondItem="jOB-mV-IKQ" secondAttribute="leading" id="aaM-1n-eGf"/>
+                                    <constraint firstAttribute="bottom" secondItem="5a5-MK-XlC" secondAttribute="bottom" id="kk4-mp-Ijc"/>
+                                    <constraint firstItem="5a5-MK-XlC" firstAttribute="top" secondItem="jOB-mV-IKQ" secondAttribute="top" id="t4b-LT-bk2"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="Ntm-rA-aRM" id="8LT-UH-aYJ"/>
+                                </connections>
+                            </scrollView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="5a5-MK-XlC" firstAttribute="trailing" secondItem="VPH-HW-0mB" secondAttribute="trailing" id="3QL-fP-lRd"/>
-                            <constraint firstItem="5a5-MK-XlC" firstAttribute="leading" secondItem="VPH-HW-0mB" secondAttribute="leading" id="ItC-b9-nHN"/>
-                            <constraint firstItem="5a5-MK-XlC" firstAttribute="top" secondItem="VPH-HW-0mB" secondAttribute="top" id="dgf-Kw-QFL"/>
-                            <constraint firstItem="5a5-MK-XlC" firstAttribute="bottom" secondItem="VPH-HW-0mB" secondAttribute="bottom" id="uXG-o6-uEL"/>
+                            <constraint firstItem="jOB-mV-IKQ" firstAttribute="top" secondItem="VPH-HW-0mB" secondAttribute="top" id="5ec-NA-R37"/>
+                            <constraint firstItem="jOB-mV-IKQ" firstAttribute="trailing" secondItem="VPH-HW-0mB" secondAttribute="trailing" id="COv-ka-oaI"/>
+                            <constraint firstItem="jOB-mV-IKQ" firstAttribute="leading" secondItem="VPH-HW-0mB" secondAttribute="leading" id="Zxz-5P-RRl"/>
+                            <constraint firstItem="jOB-mV-IKQ" firstAttribute="bottom" secondItem="VPH-HW-0mB" secondAttribute="bottom" id="rAP-On-yrA"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="VPH-HW-0mB"/>
                     </view>
                     <navigationItem key="navigationItem" title="Photo" id="cIP-Kz-46i"/>
                     <connections>
                         <outlet property="_photo" destination="5a5-MK-XlC" id="l1q-xR-k6X"/>
-                        <outlet property="photo" destination="5a5-MK-XlC" id="y3M-Rs-RGt"/>
+                        <outlet property="_scrollView" destination="jOB-mV-IKQ" id="KIV-hV-AzK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BDx-oF-4d0" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -12,17 +12,22 @@
 @interface PhotoViewController () {
  @private
     __weak IBOutlet UIImageView *_photo;
+    __weak IBOutlet UIScrollView *_scrollView;
 }
 @end
 
 
 @implementation PhotoViewController
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     _photo.image = self.lowQualityImage;
     [self updateImage];
+}
+
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+    return _photo;
 }
 
 

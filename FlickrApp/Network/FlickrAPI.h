@@ -10,15 +10,10 @@
 #import "Tag.h"
 #import "Photo.h"
 
-@protocol FlickrAPITopTagsDelegate <NSObject>
-
-- (void)setTopTags:(NSArray *)tags;
-
-@end
 
 @interface FlickrAPI: NSObject
 
-- (void)getTopTags:(id<FlickrAPITopTagsDelegate>) delegate;
+- (void)getTopTagsWithCount:(NSInteger)count completion:(void (^)(NSArray *))completion;
 - (void)getPhotoByTag:(NSString *)tag indexNumber:(NSInteger)index sizeLiteral:(NSString *)size completion:(void (^)(Photo *))completion;
 - (void)getPhotosByTag:(NSString *)tag count:(NSInteger)count sizeLiteral:(NSString *)size completion:(void (^)(NSArray *))completion;
 @property(strong,nonatomic) NSArray * tags;

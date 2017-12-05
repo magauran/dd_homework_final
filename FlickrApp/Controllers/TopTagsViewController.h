@@ -12,8 +12,7 @@
 #import "FlickrAPI.h"
 #import "UIImage+Cropping.h"
 
-@interface TopTagsViewController : UIViewController <FlickrAPITopTagsDelegate, UITableViewDelegate, UITableViewDataSource>
-
+@interface TopTagsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 
 @end

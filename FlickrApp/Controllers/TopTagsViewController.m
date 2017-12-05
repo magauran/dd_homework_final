@@ -11,7 +11,7 @@
 
 @interface TopTagsViewController()
 
-@property (strong, nonatomic) NSArray *topTags;
+@property (strong, nonatomic) NSMutableArray *topTags;
 @property (weak, nonatomic) IBOutlet UITableView *tagsTable;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
@@ -27,7 +27,7 @@
     [super viewDidLoad];
     [_tagsTable setHidden:true];
     _flickr = [[FlickrAPI alloc] init];
-    [_flickr getTopTags:self];
+    [self updateTable];
     [self.activityIndicator startAnimating];
     
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -70,17 +70,31 @@
 
 
 - (void)updateTable {
-    self.flickr = [[FlickrAPI alloc] init];
-    [self.flickr getTopTags:self];
-}
-
-
-- (void)setTopTags:(NSArray *)tags {
-    _topTags = tags;
-    [_tagsTable reloadData];
-    [_tagsTable setHidden:false];
-    [self.activityIndicator stopAnimating];
-    [self.refreshControl endRefreshing];
+    _flickr = [[FlickrAPI alloc] init];
+    NSMutableArray *__block tags = [[NSMutableArray alloc] initWithCapacity:10];
+    dispatch_queue_t queue = dispatch_queue_create("tags", 0);
+    dispatch_async(queue, ^{
+        [_flickr getTopTagsWithCount:10 completion:^(NSArray *retTags) {
+            if (retTags) {
+                [tags addObjectsFromArray:retTags];
+            }
+            self.topTags = tags;
+            for (int i = 0; i < tags.count; ++i) {
+                Tag *tag = self.topTags[i];
+                [_flickr getPhotoByTag:tag.title indexNumber:0 sizeLiteral:@"" completion:^(Photo *photo) {
+                    tag.photo = photo;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.tagsTable reloadData];
+                        [self.tagsTable setHidden:false];
+                        if (tag == self.topTags.lastObject) {
+                            [self.activityIndicator stopAnimating];
+                            [self.refreshControl endRefreshing];
+                        }
+                    });
+                }];
+            }
+        }];
+    });
 }
 
 
@@ -88,15 +102,31 @@
     TagTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"tag"];
     Tag *tag = [_topTags objectAtIndex:indexPath.row];
     cell.tagTitle.text = tag.title;
-    CGFloat width = tag.photo.size.width;
-    CGFloat height = width * 150 / self.view.bounds.size.width;
-    cell.tagImage.image = [tag.photo cropImageToSize:CGSizeMake(width, height)] ;
+    cell.backgroundColor = UIColor.blackColor;
+    
+    if (tag.photo.photoUrl) {
+        NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithURL:tag.photo.photoUrl completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            if (data) {
+                UIImage *image = [UIImage imageWithData:data];
+                if (image) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        TagTableViewCell *updateCell = (id)[tableView cellForRowAtIndexPath:indexPath];
+                        if (updateCell)
+                            updateCell.tagImage.image = image;
+                    });
+                }
+            }
+        }];
+        [task resume];
+    }
+    
+    cell.tagImage.image = tag.photo.source;
     return cell;
 }
 
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _topTags.count;
+    return self.topTags.count;
 }
 
 

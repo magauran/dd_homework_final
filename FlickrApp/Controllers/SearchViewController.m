@@ -121,9 +121,6 @@
             }
             self.photos = photo;
             for (Photo *i in self.photos) {
-                NSData *imageData = [NSData dataWithContentsOfURL:i.photoUrl];
-                UIImage *image = [UIImage imageWithData:imageData];
-                i.source = image;
                 dispatch_sync(dispatch_get_main_queue(), ^{
                     [_collectionView reloadData];
                     if (i == self.photos.lastObject) {
@@ -152,8 +149,24 @@
     
     if (_photos.count > index) {
         Photo *previewPhoto = [_photos objectAtIndex:index];
-        CGFloat side = MIN(previewPhoto.source.size.width, previewPhoto.source.size.height);
-        cell.image.image = [previewPhoto.source cropImageToSize:CGSizeMake(side, side)];
+   
+        if (previewPhoto.photoUrl) {
+            NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithURL:previewPhoto.photoUrl completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                if (data) {
+                    UIImage *image = [UIImage imageWithData:data];
+                    if (image) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            PhotoCollectionViewCell *updateCell = (id)[collectionView cellForItemAtIndexPath:indexPath];
+                            if (updateCell)
+                                updateCell.image.image = image;
+                        });
+                    }
+                }
+            }];
+            [task resume];
+        }
+        
+        
     } else {
         cell.image.image = nil;
     }

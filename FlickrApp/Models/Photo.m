@@ -27,10 +27,7 @@
     NSURL *searchURL = [self flickrPhotoURLForFlickrPhoto:self size:size];
     self.photoUrl = searchURL;
     self.largeSizePhotoUrl = [self flickrPhotoURLForFlickrPhoto:self size:@"_b"];
-//    NSData *imageData = [NSData dataWithContentsOfURL:searchURL];
-//    UIImage *image = [UIImage imageWithData:imageData];
-//    self.source = image;
-    
+
     return self;
 }
 

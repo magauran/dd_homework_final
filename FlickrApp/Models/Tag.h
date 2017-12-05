@@ -8,12 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "Photo.h"
 
 @interface Tag : NSObject
 
 @property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) UIImage *photo;
+@property (nonatomic, strong) Photo *photo;
 
-- (id) initWithTitle: (NSString *)title andPhoto: (UIImage *)photo;
+- (id) initWithTitle: (NSString *)title andPhoto: (Photo *)photo;
 
 @end

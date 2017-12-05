@@ -19,21 +19,27 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
     self.photo.image = self.lowQualityImage;
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self updateImage];
-    });
+    [self updateImage];
 }
 
 
 - (void)updateImage {
-    NSData *imageData = [NSData dataWithContentsOfURL:self.photoUrl];
-    UIImage *image = [UIImage imageWithData:imageData];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.photo.image = image;
-    });
+    
+    if (self.photoUrl) {
+        NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithURL:self.photoUrl completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            if (data) {
+                UIImage *image = [UIImage imageWithData:data];
+                if (image) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        self.photo.image = image;
+                    });
+                }
+            }
+        }];
+        [task resume];
+    }
+    
 }
 
 @end

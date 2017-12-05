@@ -10,7 +10,7 @@
 
 @implementation Tag
 
-- (id) initWithTitle: (NSString *)title andPhoto: (UIImage *)photo {
+- (id) initWithTitle: (NSString *)title andPhoto: (Photo *)photo {
     self = [super init];
     if (self) {
         self.title = title;

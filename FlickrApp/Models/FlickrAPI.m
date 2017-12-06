@@ -165,4 +165,48 @@ static NSString *const kFlickrAPIKey = @"7147eaf2e358e66ab204b2978c54e6da";
 }
 
 
+- (void)getPhotosByTag:(NSString *)tag andText:(NSString *)text count:(NSInteger)count sizeLiteral:(NSString *)size completion:(void (^)(NSArray *))completion {
+    if (!tag) {
+        completion(nil);
+        return;
+    }
+    NSDictionary *additionalParameters = @{@"tags" : tag,
+                                           @"text" : text};
+    NSURL *url = [self flickrURLForMethod:@"flickr.photos.search"
+                           withParameters:additionalParameters];
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionTask *task = [session dataTaskWithURL:url
+                                    completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {
+                                        if (!error) {
+                                            NSDictionary *results = [NSJSONSerialization JSONObjectWithData:data
+                                                                                                    options:0
+                                                                                                      error:NULL];
+                                            if ([[results objectForKey:@"stat"] isEqual:@"fail"]) {
+                                                completion(nil);
+                                            }
+                                            
+                                            NSArray *photos = [[results objectForKey:@"photos"] objectForKey:@"photo"];
+                                            
+                                            NSMutableArray *returnPhotos = [[NSMutableArray alloc] init];
+                                            for (NSInteger i = 0; i < count & i < photos.count; ++i) {
+                                                Photo *photo = [[Photo alloc] initWithPhotoDictionary:photos[i] andSize:size];
+                                                [returnPhotos addObject:photo];
+                                            }
+                                            if (returnPhotos.count > 0) {
+                                                completion(returnPhotos);
+                                            } else {
+                                                completion(nil);
+                                            }
+                                            
+                                        } else {
+                                            NSLog(@"ERROR: %ld", error.code);
+                                            completion(nil);
+                                        }
+                                    }];
+    [task resume];
+}
+
+
+
 @end

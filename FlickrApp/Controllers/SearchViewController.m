@@ -195,7 +195,7 @@ static const NSInteger kPhotosCount = 15;
     NSMutableArray *__block photo = [[NSMutableArray alloc] initWithCapacity:kPhotosCount];
     dispatch_queue_t queue = dispatch_queue_create("photos", 0);
     dispatch_async(queue, ^{
-        [_flickr getPhotosByTag:_searchTag count:kPhotosCount sizeLiteral:@"_t" completion:^(NSArray *returnPhotos) {
+        [_flickr getPhotosByTag:_searchTag andText:_searchTag count:kPhotosCount sizeLiteral:@"_t" completion:^(NSArray *returnPhotos) {
             if (returnPhotos) {
                 [photo addObjectsFromArray:returnPhotos];
             }

@@ -19,6 +19,7 @@
 - (void)getTopTagsWithCount:(NSInteger)count completion:(void (^)(NSArray *))completion;
 - (void)getPhotoByTag:(NSString *)tag indexNumber:(NSInteger)index sizeLiteral:(NSString *)size completion:(void (^)(Photo *))completion;
 - (void)getPhotosByTag:(NSString *)tag count:(NSInteger)count sizeLiteral:(NSString *)size completion:(void (^)(NSArray *))completion;
+- (void)getPhotosByTag:(NSString *)tag andText:(NSString *)text count:(NSInteger)count sizeLiteral:(NSString *)size completion:(void (^)(NSArray *))completion;
 
 
 @end
